@@ -1,5 +1,29 @@
 [
   {
+    "id": "film-mu13iku3",
+    "title": "Đấu phá thương khung",
+    "originalTitle": "Đấu phá thương khung",
+    "year": 2026,
+    "duration": "9m45s",
+    "quality": "4K Ultra",
+    "badge": "Vietsub",
+    "genres": [
+      "Hoạt hình"
+    ],
+    "rating": "8.8",
+    "poster": "https://khodocsach.com/wp-content/uploads/2023/07/Dau-pha-thuong-khung-cover.jpg",
+    "backdrop": "https://khodocsach.com/wp-content/uploads/2023/07/Dau-pha-thuong-khung-cover.jpg",
+    "description": "Tác phẩm Đấu phá thương khung - Thể loại Hoạt hình, thời lượng 9m45s. Được đăng tải tự động từ Telegram Bot.",
+    "featured": false,
+    "servers": [
+      {
+        "name": "Server Chính",
+        "type": "direct",
+        "url": "https://streamtape.com/v/YL0BVGBj0XSvlAp/Phim_%C4%90%E1%BA%A5u_Ph%C3%A1_Th%C6%B0%C6%A1ng_Khung_Ph%E1%BA%A7n_5_T%E1%BA%ADp_201_Vietsub___hd%7E3.mp4"
+      }
+    ]
+  },
+  {
     "id": "tears-of-steel",
     "title": "Tears of Steel (Nước Mắt Thép)",
     "originalTitle": "Tears of Steel",
@@ -7,7 +31,10 @@
     "duration": "1h 45m",
     "quality": "HD 1080p",
     "badge": "Vietsub",
-    "genres": ["Khoa Học Viễn Tưởng", "Hành Động"],
+    "genres": [
+      "Khoa Học Viễn Tưởng",
+      "Hành Động"
+    ],
     "rating": "8.8",
     "poster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80",
     "backdrop": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80",
@@ -34,7 +61,10 @@
     "duration": "1h 30m",
     "quality": "Full HD",
     "badge": "Thuyết Minh",
-    "genres": ["Hoạt Hình", "Phiêu Lưu"],
+    "genres": [
+      "Hoạt Hình",
+      "Phiêu Lưu"
+    ],
     "rating": "8.5",
     "poster": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80",
     "backdrop": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80",
@@ -56,7 +86,10 @@
     "duration": "1h 15m",
     "quality": "4K Ultra",
     "badge": "Lồng Tiếng",
-    "genres": ["Hoạt Hình", "Hài Hước"],
+    "genres": [
+      "Hoạt Hình",
+      "Hài Hước"
+    ],
     "rating": "8.2",
     "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
     "backdrop": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1600&q=80",
@@ -78,7 +111,10 @@
     "duration": "2h 10m",
     "quality": "HD 1080p",
     "badge": "Vietsub",
-    "genres": ["Khoa Học Viễn Tưởng", "Tâm Lý"],
+    "genres": [
+      "Khoa Học Viễn Tưởng",
+      "Tâm Lý"
+    ],
     "rating": "8.0",
     "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=600&q=80",
     "backdrop": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1600&q=80",
