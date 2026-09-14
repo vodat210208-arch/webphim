@@ -1,29 +1,5 @@
 [
   {
-    "id": "film-mu13iku3",
-    "title": "Đấu phá thương khung",
-    "originalTitle": "Đấu phá thương khung",
-    "year": 2026,
-    "duration": "9m45s",
-    "quality": "4K Ultra",
-    "badge": "Vietsub",
-    "genres": [
-      "Hoạt hình"
-    ],
-    "rating": "8.8",
-    "poster": "https://khodocsach.com/wp-content/uploads/2023/07/Dau-pha-thuong-khung-cover.jpg",
-    "backdrop": "https://khodocsach.com/wp-content/uploads/2023/07/Dau-pha-thuong-khung-cover.jpg",
-    "description": "Tác phẩm Đấu phá thương khung - Thể loại Hoạt hình, thời lượng 9m45s. Được đăng tải tự động từ Telegram Bot.",
-    "featured": true,
-    "servers": [
-      {
-        "name": "Server Streamtape",
-        "type": "iframe",
-        "url": "https://streamtape.com/e/YL0BVGBj0XSvlAp/Phim_%C4%90%E1%BA%A5u_Ph%C3%A1_Th%C6%B0%C6%A1ng_Khung_Ph%E1%BA%A7n_5_T%E1%BA%ADp_201_Vietsub___hd%7E3.mp4"
-      }
-    ]
-  },
-  {
     "id": "tears-of-steel",
     "title": "Tears of Steel (Nước Mắt Thép)",
     "originalTitle": "Tears of Steel",
