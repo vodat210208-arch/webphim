@@ -1,5 +1,5 @@
 // ==========================================================================
-// AURA CINEMA - APP CONTROLLER (VỚI BỘ ĐỔI THEME)
+// AURA CINEMA - PERFORMANCE OPTIMIZED CONTROLLER
 // ==========================================================================
 
 let allMovies = [];
@@ -46,14 +46,14 @@ const modalRating = document.getElementById('modalRating');
 const modalGenres = document.getElementById('modalGenres');
 const modalMovieDesc = document.getElementById('modalMovieDesc');
 
-// Initialize
+// Initialize App
 document.addEventListener('DOMContentLoaded', async () => {
   setupThemeSwitcher();
   setupEventListeners();
   await loadMovies();
 });
 
-// Theme Switcher Manager
+// Theme Switcher
 function setupThemeSwitcher() {
   const currentTheme = localStorage.getItem('aura_theme') || 'blue';
   setTheme(currentTheme);
@@ -75,11 +75,11 @@ function setTheme(theme) {
   });
 }
 
-// Load movies
+// Load movies data
 async function loadMovies() {
   try {
     const response = await fetch('./data/movies.json');
-    if (!response.ok) throw new Error('Không thể đọc dữ liệu phim.');
+    if (!response.ok) throw new Error('Không thể tải file movies.json');
     allMovies = await response.json();
     
     setupHero(allMovies);
@@ -88,15 +88,15 @@ async function loadMovies() {
   } catch (error) {
     console.error('Error loading movies:', error);
     movieGrid.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: var(--theme-primary);">
-        <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.2rem; margin-bottom: 14px;"></i>
-        <p>Không thể kết nối đến cơ sở dữ liệu phim. Vui lòng thử lại sau.</p>
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--theme-primary);">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 10px;"></i>
+        <p>Không thể kết nối cơ sở dữ liệu phim. Vui lòng tải lại trang.</p>
       </div>
     `;
   }
 }
 
-// Hero Setup
+// Hero Spotlight Setup
 function setupHero(movies) {
   const featured = movies.find(m => m.featured) || movies[0];
   if (!featured) return;
@@ -114,7 +114,7 @@ function setupHero(movies) {
   heroInfoBtn.onclick = () => openPlayer(featured, 0);
 }
 
-// Render Genre Filter Chips
+// Genre Chips Setup
 function renderGenreChips(movies) {
   const genresSet = new Set();
   movies.forEach(m => {
@@ -145,7 +145,7 @@ function updateNavHighlight(genre) {
   });
 }
 
-// Render Movies
+// Render Movies with Async Image Decoding
 function renderMovies() {
   const filtered = allMovies.filter(movie => {
     const matchGenre = currentFilter === 'all' || (movie.genres && movie.genres.includes(currentFilter));
@@ -172,7 +172,7 @@ function renderMovies() {
   movieGrid.innerHTML = filtered.map(movie => `
     <div class="movie-card" data-id="${movie.id}">
       <div class="card-poster-frame">
-        <img class="card-poster-img" src="${movie.poster}" alt="${movie.title}" loading="lazy" />
+        <img class="card-poster-img" src="${movie.poster}" alt="${movie.title}" loading="lazy" decoding="async" />
         <span class="card-tag-badge">${movie.badge || movie.quality || 'HD'}</span>
         <span class="card-score-badge"><i class="fa-solid fa-star"></i> ${movie.rating || '8.0'}</span>
         <div class="card-hover-aura">
@@ -198,7 +198,7 @@ function renderMovies() {
   });
 }
 
-// Embed URL Converter
+// Convert video URL (Drive / YouTube)
 function formatVideoUrl(url, type) {
   if (!url) return '';
   

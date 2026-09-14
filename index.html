@@ -2,9 +2,9 @@
 <html lang="vi" data-theme="blue">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Aura Cinema - Trải Nghiệm Điện Ảnh Tinh Gọn</title>
-  <meta name="description" content="Trang xem phim trực tuyến tối giản, hỗ trợ đổi 3 chủ đề màu sắc: Xanh dương, Hồng neon và Bình thường." />
+  <meta name="description" content="Trang xem phim trực tuyến tối giản, siêu mượt trên điện thoại, hỗ trợ đổi 3 chủ đề màu sắc." />
   
   <script>
     // Khởi tạo theme tức thì từ LocalStorage để tránh giật giao diện
@@ -15,14 +15,14 @@
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <!-- Ambient Atmospheric Glows -->
+  <!-- Ambient Atmospheric Glows (Chỉ bật trên Desktop, ẩn trên Mobile để đạt 60-120fps) -->
   <div class="ambient-glow glow-primary"></div>
   <div class="ambient-glow glow-secondary"></div>
 
@@ -49,17 +49,17 @@
       <div class="nav-right">
         <!-- Theme Selector -->
         <div class="theme-selector" id="themePicker">
-          <button class="theme-btn active" data-set-theme="blue" title="Chủ đề Xanh Dương">
+          <button class="theme-btn active" data-set-theme="blue" title="Chủ đề Xanh Dương" aria-label="Xanh Dương">
             <span class="theme-swatch swatch-blue"></span>
             <span class="theme-title">Xanh</span>
           </button>
-          <button class="theme-btn" data-set-theme="pink" title="Chủ đề Hồng Neon">
+          <button class="theme-btn" data-set-theme="pink" title="Chủ đề Hồng Neon" aria-label="Hồng Neon">
             <span class="theme-swatch swatch-pink"></span>
             <span class="theme-title">Hồng</span>
           </button>
-          <button class="theme-btn" data-set-theme="classic" title="Chủ đề Bình Thường (Đỏ Cinema)">
+          <button class="theme-btn" data-set-theme="classic" title="Chủ đề Bình Thường" aria-label="Bình Thường">
             <span class="theme-swatch swatch-classic"></span>
-            <span class="theme-title">Bình Thường</span>
+            <span class="theme-title">Mặc định</span>
           </button>
         </div>
 
@@ -67,7 +67,7 @@
         <div class="search-bar">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
           <input type="text" id="searchInput" placeholder="Tìm phim..." autocomplete="off" />
-          <button id="clearSearch" class="clear-search-btn" style="display: none;">
+          <button id="clearSearch" class="clear-search-btn" style="display: none;" aria-label="Xóa tìm kiếm">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
@@ -85,7 +85,7 @@
     <div class="hero-inner">
       <div class="hero-meta-pill">
         <span class="pill-dot"></span>
-        <span class="pill-label" id="heroBadge">TIÊU ĐIỂM HÔM NAY</span>
+        <span class="pill-label" id="heroBadge">TIÊU ĐIỂM</span>
         <span class="pill-divider">•</span>
         <span class="pill-quality" id="heroQuality">4K Ultra</span>
       </div>
@@ -113,7 +113,7 @@
         </button>
         <button class="btn btn-ghost" id="heroInfoBtn">
           <span class="btn-icon"><i class="fa-solid fa-info"></i></span>
-          <span class="btn-text">Chi Tiết Tác Phẩm</span>
+          <span class="btn-text">Chi Tiết</span>
         </button>
       </div>
     </div>
@@ -123,9 +123,7 @@
   <main class="main-content" id="movies-section">
     <!-- Category & Filter Strip -->
     <div class="filter-strip">
-      <div class="filter-header">
-        <span class="filter-label">Thể loại</span>
-      </div>
+      <span class="filter-label">Thể loại</span>
       <div class="filter-pills" id="genreChips">
         <button class="pill-chip active" data-genre="all">Tất Cả</button>
       </div>
@@ -149,7 +147,7 @@
         <i class="fa-regular fa-compass"></i>
       </div>
       <h3>Không tìm thấy kết quả</h3>
-      <p>Thử tìm với tên phim khác hoặc đổi bộ lọc thể loại</p>
+      <p>Thử tìm với tên phim khác hoặc chọn lại thể loại</p>
       <button class="btn btn-primary" id="resetFilterBtn">Làm mới bộ lọc</button>
     </div>
   </main>
@@ -204,11 +202,11 @@
         <div class="brand-text">
           <span class="brand-aura">AURA</span><span class="brand-cinema">CINEMA</span>
         </div>
-        <p class="footer-tagline">Nghệ thuật điện ảnh trong không gian tối giản, tinh tế.</p>
+        <p class="footer-tagline">Nghệ thuật điện ảnh tối giản, tối ưu mượt mà trên mọi thiết bị.</p>
       </div>
       <div class="footer-meta">
         <p>Quản lý bởi <span class="owner-pill">vodat210208-arch</span></p>
-        <span class="tech-stack">GitHub Pages &bull; Đa Nguồn Video &bull; 3 Giao Diện Màu Sắc</span>
+        <span class="tech-stack">GitHub Pages &bull; Đa Nguồn Video &bull; Siêu Tốc Độ</span>
       </div>
     </div>
   </footer>
