@@ -1,5 +1,29 @@
 [
   {
+    "id": "film-mu1489lx",
+    "title": "Đấu phá thương khung",
+    "originalTitle": "Đấu phá thương khung",
+    "year": 2026,
+    "duration": "9m45s",
+    "quality": "4K Ultra",
+    "badge": "Vietsub",
+    "genres": [
+      "Hoạt hình 3d"
+    ],
+    "rating": "8.8",
+    "poster": "https://www.galeriemichael.com/wp-content/uploads/2025/06/hinh-nen-dau-pha-thuong-khung_16.jpg",
+    "backdrop": "https://www.galeriemichael.com/wp-content/uploads/2025/06/hinh-nen-dau-pha-thuong-khung_16.jpg",
+    "description": "Tác phẩm Đấu phá thương khung - Thể loại Hoạt hình 3d, thời lượng 9m45s. Được đăng tải tự động từ Telegram Bot.",
+    "featured": false,
+    "servers": [
+      {
+        "name": "Server 1",
+        "type": "iframe",
+        "url": "https://mixdrop.top/e/elnmn09qc36vjk"
+      }
+    ]
+  },
+  {
     "id": "tears-of-steel",
     "title": "Tears of Steel (Nước Mắt Thép)",
     "originalTitle": "Tears of Steel",
