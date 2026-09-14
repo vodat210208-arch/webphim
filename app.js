@@ -1,5 +1,5 @@
 // ==========================================================================
-// AURA CINEMA - LIGHTWEIGHT APP CONTROLLER (NO-LAG FOR LOW-END PHONES)
+// AURA CINEMA - LIGHTWEIGHT APP CONTROLLER (HỖ TRỢ ĐA NGUỒN STREAMTAPE, DRIVE, YOUTUBE)
 // ==========================================================================
 
 let allMovies = [];
@@ -183,12 +183,21 @@ function renderMovies() {
   });
 }
 
-// Convert video URL (Drive / YouTube)
-function formatVideoUrl(url, type) {
+// Chuyển đổi thông minh các đường link của các host (Streamtape, Drive, YouTube, Doodstream...)
+function formatVideoUrl(url) {
   if (!url) return '';
+
+  // Streamtape: Đổi /v/ thành /e/ để nhúng được
+  if (url.includes('streamtape.com')) {
+    return url.replace('/v/', '/e/');
+  }
+
+  // Google Drive: Đổi /view thành /preview để nhúng
   if (url.includes('drive.google.com')) {
     return url.replace(/\/view(\?.*)?$/, '/preview');
   }
+
+  // YouTube: Đổi sang /embed/
   if (url.includes('youtube.com/watch?v=')) {
     const id = new URL(url).searchParams.get('v');
     return `https://www.youtube.com/embed/${id}?autoplay=1`;
@@ -197,7 +206,29 @@ function formatVideoUrl(url, type) {
     const id = url.split('youtu.be/')[1].split('?')[0];
     return `https://www.youtube.com/embed/${id}?autoplay=1`;
   }
+
+  // DoodStream: Đổi /d/ thành /e/
+  if (url.match(/dood(stream)?\.(com|to|so|ws|cx|sh)\/d\//i)) {
+    return url.replace('/d/', '/e/');
+  }
+
+  // Filemoon: Đổi /d/ thành /e/
+  if (url.includes('filemoon.') && url.includes('/d/')) {
+    return url.replace('/d/', '/e/');
+  }
+
   return url;
+}
+
+// Kiểm tra xem link có phải là Iframe host không
+function isIframeMedia(url, type) {
+  // Các host video chia sẻ luôn luôn phải chạy trong iframe
+  if (url.match(/(streamtape\.com|drive\.google\.com|youtube\.com|youtu\.be|dood|filemoon|streamwish|mixdrop|ok\.ru|luluvdo)/i)) {
+    return true;
+  }
+  if (type === 'iframe') return true;
+  if (type === 'direct') return false;
+  return !url.match(/\.(mp4|webm|ogg|m4v)(\?.*)?$/i);
 }
 
 // Open Player Modal
@@ -242,21 +273,22 @@ function openPlayer(movie, serverIndex = 0) {
 
 function loadServerMedia(server) {
   playerWrapper.innerHTML = '';
-  const processedUrl = formatVideoUrl(server.url, server.type);
+  const processedUrl = formatVideoUrl(server.url);
+  const useIframe = isIframeMedia(server.url, server.type);
 
-  if (server.type === 'direct' || (!server.type && processedUrl.match(/\.(mp4|webm|ogg|m4v)(\?.*)?$/i))) {
+  if (useIframe) {
+    const iframe = document.createElement('iframe');
+    iframe.src = processedUrl;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+    iframe.allowFullscreen = true;
+    playerWrapper.appendChild(iframe);
+  } else {
     const video = document.createElement('video');
     video.src = processedUrl;
     video.controls = true;
     video.autoplay = true;
     video.playsInline = true;
     playerWrapper.appendChild(video);
-  } else {
-    const iframe = document.createElement('iframe');
-    iframe.src = processedUrl;
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
-    iframe.allowFullscreen = true;
-    playerWrapper.appendChild(iframe);
   }
 }
 

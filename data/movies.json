@@ -14,12 +14,12 @@
     "poster": "https://khodocsach.com/wp-content/uploads/2023/07/Dau-pha-thuong-khung-cover.jpg",
     "backdrop": "https://khodocsach.com/wp-content/uploads/2023/07/Dau-pha-thuong-khung-cover.jpg",
     "description": "Tác phẩm Đấu phá thương khung - Thể loại Hoạt hình, thời lượng 9m45s. Được đăng tải tự động từ Telegram Bot.",
-    "featured": false,
+    "featured": true,
     "servers": [
       {
-        "name": "Server Chính",
-        "type": "direct",
-        "url": "https://streamtape.com/v/YL0BVGBj0XSvlAp/Phim_%C4%90%E1%BA%A5u_Ph%C3%A1_Th%C6%B0%C6%A1ng_Khung_Ph%E1%BA%A7n_5_T%E1%BA%ADp_201_Vietsub___hd%7E3.mp4"
+        "name": "Server Streamtape",
+        "type": "iframe",
+        "url": "https://streamtape.com/e/YL0BVGBj0XSvlAp/Phim_%C4%90%E1%BA%A5u_Ph%C3%A1_Th%C6%B0%C6%A1ng_Khung_Ph%E1%BA%A7n_5_T%E1%BA%ADp_201_Vietsub___hd%7E3.mp4"
       }
     ]
   },
@@ -39,7 +39,7 @@
     "poster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80",
     "backdrop": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80",
     "description": "Trong tương lai không xa, một nhóm nhà khoa học tại Amsterdam tìm cách cứu lấy nhân loại khỏi cuộc xâm lăng của những cỗ máy huỷ diệt khổng lồ bằng công nghệ tua ngược thời gian.",
-    "featured": true,
+    "featured": false,
     "servers": [
       {
         "name": "Server 1 (Direct Video)",
