@@ -1,5 +1,5 @@
 // ==========================================================================
-// AURA CINEMA - PERFORMANCE OPTIMIZED CONTROLLER
+// AURA CINEMA - LIGHTWEIGHT APP CONTROLLER (NO-LAG FOR LOW-END PHONES)
 // ==========================================================================
 
 let allMovies = [];
@@ -8,31 +8,27 @@ let searchQuery = '';
 let currentMovie = null;
 let currentServerIndex = 0;
 
-// DOM Selectors
-const navbar = document.getElementById('navbar');
+// DOM Elements
 const searchInput = document.getElementById('searchInput');
 const clearSearch = document.getElementById('clearSearch');
 const genreChips = document.getElementById('genreChips');
 const movieGrid = document.getElementById('movieGrid');
 const movieCount = document.getElementById('movieCount');
-const sectionTitle = document.getElementById('sectionTitle');
 const emptyState = document.getElementById('emptyState');
 const resetFilterBtn = document.getElementById('resetFilterBtn');
 
-// Hero Selectors
-const heroBanner = document.getElementById('heroBanner');
+// Hero Elements
 const heroBackdrop = document.getElementById('heroBackdrop');
 const heroTitle = document.getElementById('heroTitle');
 const heroDesc = document.getElementById('heroDesc');
 const heroYear = document.getElementById('heroYear');
 const heroDuration = document.getElementById('heroDuration');
-const heroGenres = document.getElementById('heroGenres');
 const heroQuality = document.getElementById('heroQuality');
 const heroRating = document.getElementById('heroRating');
 const heroWatchBtn = document.getElementById('heroWatchBtn');
 const heroInfoBtn = document.getElementById('heroInfoBtn');
 
-// Modal Selectors
+// Modal Elements
 const videoModal = document.getElementById('videoModal');
 const modalBackdrop = document.getElementById('modalBackdrop');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
@@ -46,22 +42,23 @@ const modalRating = document.getElementById('modalRating');
 const modalGenres = document.getElementById('modalGenres');
 const modalMovieDesc = document.getElementById('modalMovieDesc');
 
-// Initialize App
+// Initialize
 document.addEventListener('DOMContentLoaded', async () => {
   setupThemeSwitcher();
   setupEventListeners();
   await loadMovies();
 });
 
-// Theme Switcher
+// Setup 3 Themes
 function setupThemeSwitcher() {
   const currentTheme = localStorage.getItem('aura_theme') || 'blue';
   setTheme(currentTheme);
 
   document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const selected = btn.dataset.setTheme;
-      setTheme(selected);
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const theme = btn.dataset.setTheme;
+      setTheme(theme);
     });
   });
 }
@@ -75,28 +72,27 @@ function setTheme(theme) {
   });
 }
 
-// Load movies data
+// Load Movies JSON
 async function loadMovies() {
   try {
-    const response = await fetch('./data/movies.json');
-    if (!response.ok) throw new Error('Không thể tải file movies.json');
-    allMovies = await response.json();
-    
+    const res = await fetch('./data/movies.json');
+    if (!res.ok) throw new Error('Failed to load movies data');
+    allMovies = await res.json();
+
     setupHero(allMovies);
     renderGenreChips(allMovies);
     renderMovies();
-  } catch (error) {
-    console.error('Error loading movies:', error);
+  } catch (err) {
+    console.error('Error loading movies:', err);
     movieGrid.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--theme-primary);">
-        <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 10px;"></i>
-        <p>Không thể kết nối cơ sở dữ liệu phim. Vui lòng tải lại trang.</p>
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px 10px; color: #ff5277;">
+        <p>Không thể tải danh sách phim. Vui lòng thử tải lại trang.</p>
       </div>
     `;
   }
 }
 
-// Hero Spotlight Setup
+// Setup Hero
 function setupHero(movies) {
   const featured = movies.find(m => m.featured) || movies[0];
   if (!featured) return;
@@ -106,60 +102,49 @@ function setupHero(movies) {
   heroDesc.textContent = featured.description;
   heroYear.textContent = featured.year;
   heroDuration.textContent = featured.duration;
-  heroGenres.textContent = (featured.genres || []).join(', ');
   heroQuality.textContent = featured.quality || '4K Ultra';
-  heroRating.innerHTML = `<i class="fa-solid fa-star"></i> ${featured.rating || '8.8'}`;
+  heroRating.textContent = featured.rating || '8.8';
 
   heroWatchBtn.onclick = () => openPlayer(featured, 0);
   heroInfoBtn.onclick = () => openPlayer(featured, 0);
 }
 
-// Genre Chips Setup
+// Render Genre Filter Chips
 function renderGenreChips(movies) {
-  const genresSet = new Set();
-  movies.forEach(m => {
-    (m.genres || []).forEach(g => genresSet.add(g));
-  });
+  const genres = new Set();
+  movies.forEach(m => (m.genres || []).forEach(g => genres.add(g)));
 
-  const chipsHtml = [
-    `<button class="pill-chip active" data-genre="all">Tất Cả</button>`,
-    ...Array.from(genresSet).map(g => `<button class="pill-chip" data-genre="${g}">${g}</button>`)
+  const html = [
+    `<button class="chip active" data-genre="all">Tất Cả</button>`,
+    ...Array.from(genres).map(g => `<button class="chip" data-genre="${g}">${g}</button>`)
   ].join('');
 
-  genreChips.innerHTML = chipsHtml;
+  genreChips.innerHTML = html;
 
-  genreChips.querySelectorAll('.pill-chip').forEach(chip => {
+  genreChips.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      genreChips.querySelectorAll('.pill-chip').forEach(c => c.classList.remove('active'));
+      genreChips.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
       currentFilter = chip.dataset.genre;
-      updateNavHighlight(currentFilter);
       renderMovies();
     });
   });
 }
 
-function updateNavHighlight(genre) {
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.toggle('active', item.dataset.genre === genre);
-  });
-}
-
-// Render Movies with Async Image Decoding
+// Render Movie Grid
 function renderMovies() {
+  const q = searchQuery.toLowerCase().trim();
   const filtered = allMovies.filter(movie => {
     const matchGenre = currentFilter === 'all' || (movie.genres && movie.genres.includes(currentFilter));
-    const query = searchQuery.toLowerCase().trim();
-    const matchSearch = !query || 
-      movie.title.toLowerCase().includes(query) ||
-      (movie.originalTitle && movie.originalTitle.toLowerCase().includes(query)) ||
-      (movie.genres && movie.genres.some(g => g.toLowerCase().includes(query))) ||
-      (movie.description && movie.description.toLowerCase().includes(query));
+    const matchSearch = !q || 
+      movie.title.toLowerCase().includes(q) ||
+      (movie.originalTitle && movie.originalTitle.toLowerCase().includes(q)) ||
+      (movie.genres && movie.genres.some(g => g.toLowerCase().includes(q)));
 
     return matchGenre && matchSearch;
   });
 
-  movieCount.textContent = `${filtered.length} tác phẩm`;
+  movieCount.textContent = `${filtered.length} phim`;
 
   if (filtered.length === 0) {
     movieGrid.innerHTML = '';
@@ -180,7 +165,7 @@ function renderMovies() {
         </div>
       </div>
       <div class="card-content">
-        <h3 class="card-heading" title="${movie.title}">${movie.title}</h3>
+        <div class="card-heading" title="${movie.title}">${movie.title}</div>
         <div class="card-footer-meta">
           <span>${movie.year}</span>
           <span>${movie.duration}</span>
@@ -201,20 +186,17 @@ function renderMovies() {
 // Convert video URL (Drive / YouTube)
 function formatVideoUrl(url, type) {
   if (!url) return '';
-  
   if (url.includes('drive.google.com')) {
     return url.replace(/\/view(\?.*)?$/, '/preview');
   }
-
   if (url.includes('youtube.com/watch?v=')) {
-    const videoId = new URL(url).searchParams.get('v');
-    return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    const id = new URL(url).searchParams.get('v');
+    return `https://www.youtube.com/embed/${id}?autoplay=1`;
   }
   if (url.includes('youtu.be/')) {
-    const videoId = url.split('youtu.be/')[1].split('?')[0];
-    return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    const id = url.split('youtu.be/')[1].split('?')[0];
+    return `https://www.youtube.com/embed/${id}?autoplay=1`;
   }
-
   return url;
 }
 
@@ -227,15 +209,15 @@ function openPlayer(movie, serverIndex = 0) {
   modalYear.textContent = movie.year;
   modalDuration.textContent = movie.duration;
   modalQuality.textContent = movie.quality || '4K';
-  modalRating.innerHTML = `<i class="fa-solid fa-star"></i> ${movie.rating || '8.8'}`;
+  modalRating.textContent = movie.rating || '8.8';
   modalMovieDesc.textContent = movie.description || '';
 
   modalGenres.innerHTML = (movie.genres || []).map(g => `
-    <span class="genre-tag-pill">${g}</span>
+    <span class="genre-item">${g}</span>
   `).join('');
 
   const servers = movie.servers && movie.servers.length > 0 ? movie.servers : [
-    { name: 'Nguồn Mặc Định', type: movie.type || 'direct', url: movie.videoUrl }
+    { name: 'Nguồn Chính', type: movie.type || 'direct', url: movie.videoUrl }
   ];
 
   serverButtons.innerHTML = servers.map((srv, idx) => `
@@ -263,18 +245,18 @@ function loadServerMedia(server) {
   const processedUrl = formatVideoUrl(server.url, server.type);
 
   if (server.type === 'direct' || (!server.type && processedUrl.match(/\.(mp4|webm|ogg|m4v)(\?.*)?$/i))) {
-    const videoEl = document.createElement('video');
-    videoEl.src = processedUrl;
-    videoEl.controls = true;
-    videoEl.autoplay = true;
-    videoEl.playsInline = true;
-    playerWrapper.appendChild(videoEl);
+    const video = document.createElement('video');
+    video.src = processedUrl;
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    playerWrapper.appendChild(video);
   } else {
-    const iframeEl = document.createElement('iframe');
-    iframeEl.src = processedUrl;
-    iframeEl.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
-    iframeEl.allowFullscreen = true;
-    playerWrapper.appendChild(iframeEl);
+    const iframe = document.createElement('iframe');
+    iframe.src = processedUrl;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+    iframe.allowFullscreen = true;
+    playerWrapper.appendChild(iframe);
   }
 }
 
@@ -283,9 +265,9 @@ function closeModal() {
   videoModal.classList.remove('open');
   document.body.style.overflow = '';
   playerWrapper.innerHTML = `
-    <div class="screen-loading">
-      <div class="pulse-loader"></div>
-      <span>Đang kết nối phòng chiếu...</span>
+    <div class="video-loading">
+      <div class="simple-spinner"></div>
+      <span>Đang tải phim...</span>
     </div>
   `;
 }
@@ -318,30 +300,9 @@ function setupEventListeners() {
     searchQuery = '';
     clearSearch.style.display = 'none';
     currentFilter = 'all';
-    genreChips.querySelectorAll('.pill-chip').forEach(c => {
+    genreChips.querySelectorAll('.chip').forEach(c => {
       c.classList.toggle('active', c.dataset.genre === 'all');
     });
     renderMovies();
-  });
-
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      const genre = item.dataset.genre;
-      currentFilter = genre;
-      updateNavHighlight(genre);
-      
-      genreChips.querySelectorAll('.pill-chip').forEach(c => {
-        c.classList.toggle('active', c.dataset.genre === genre);
-      });
-
-      renderMovies();
-
-      if (genre !== 'all') {
-        document.getElementById('movies-section').scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    });
   });
 }

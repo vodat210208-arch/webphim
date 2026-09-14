@@ -2,212 +2,177 @@
 <html lang="vi" data-theme="blue">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>Aura Cinema - Trải Nghiệm Điện Ảnh Tinh Gọn</title>
-  <meta name="description" content="Trang xem phim trực tuyến tối giản, siêu mượt trên điện thoại, hỗ trợ đổi 3 chủ đề màu sắc." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Aura Cinema - Xem Phim Nhanh & Mượt</title>
+  <meta name="description" content="Trang web xem phim giao diện tối giản, tối ưu siêu tốc cho mọi điện thoại, tùy chọn 3 màu chủ đạo." />
   
   <script>
-    // Khởi tạo theme tức thì từ LocalStorage để tránh giật giao diện
-    const currentTheme = localStorage.getItem('aura_theme') || 'blue';
-    document.documentElement.setAttribute('data-theme', currentTheme);
+    // Nhận diện theme ngay từ đầu để tránh chớp giật màn hình
+    const savedTheme = localStorage.getItem('aura_theme') || 'blue';
+    document.documentElement.setAttribute('data-theme', savedTheme);
   </script>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <!-- Ambient Atmospheric Glows (Chỉ bật trên Desktop, ẩn trên Mobile để đạt 60-120fps) -->
-  <div class="ambient-glow glow-primary"></div>
-  <div class="ambient-glow glow-secondary"></div>
 
-  <!-- Minimalist Navigation Bar -->
+  <!-- Header / Navbar Cân Đối Tuyệt Đối -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
       <a href="#" class="brand">
-        <div class="brand-mark">
-          <span class="mark-inner"></span>
-        </div>
-        <div class="brand-text">
-          <span class="brand-aura">AURA</span><span class="brand-cinema">CINEMA</span>
-        </div>
+        <span class="brand-dot"></span>
+        <span class="brand-text">AURA<span>CINEMA</span></span>
       </a>
 
-      <nav class="nav-links" id="navMenu">
-        <a href="#" class="nav-item active" data-genre="all">Khám Phá</a>
-        <a href="#movies-section" class="nav-item" data-genre="Hành Động">Hành Động</a>
-        <a href="#movies-section" class="nav-item" data-genre="Khoa Học Viễn Tưởng">Viễn Tưởng</a>
-        <a href="#movies-section" class="nav-item" data-genre="Hoạt Hình">Hoạt Hình</a>
-        <a href="#movies-section" class="nav-item" data-genre="Tâm Lý">Tâm Lý</a>
-      </nav>
-
-      <div class="nav-right">
-        <!-- Theme Selector -->
-        <div class="theme-selector" id="themePicker">
-          <button class="theme-btn active" data-set-theme="blue" title="Chủ đề Xanh Dương" aria-label="Xanh Dương">
-            <span class="theme-swatch swatch-blue"></span>
-            <span class="theme-title">Xanh</span>
-          </button>
-          <button class="theme-btn" data-set-theme="pink" title="Chủ đề Hồng Neon" aria-label="Hồng Neon">
-            <span class="theme-swatch swatch-pink"></span>
-            <span class="theme-title">Hồng</span>
-          </button>
-          <button class="theme-btn" data-set-theme="classic" title="Chủ đề Bình Thường" aria-label="Bình Thường">
-            <span class="theme-swatch swatch-classic"></span>
-            <span class="theme-title">Mặc định</span>
-          </button>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="search-bar">
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" id="searchInput" placeholder="Tìm phim..." autocomplete="off" />
-          <button id="clearSearch" class="clear-search-btn" style="display: none;" aria-label="Xóa tìm kiếm">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
+      <!-- 3 Nút Chọn Màu Siêu Gọn -->
+      <div class="theme-bar" id="themePicker">
+        <button class="theme-btn active" data-set-theme="blue" title="Màu Xanh Dương" aria-label="Xanh Dương">
+          <span class="swatch swatch-blue"></span>
+        </button>
+        <button class="theme-btn" data-set-theme="pink" title="Màu Hồng Neon" aria-label="Hồng Neon">
+          <span class="swatch swatch-pink"></span>
+        </button>
+        <button class="theme-btn" data-set-theme="classic" title="Màu Bình Thường (Đỏ Cinema)" aria-label="Bình Thường">
+          <span class="swatch swatch-classic"></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Editorial Hero Spotlight -->
+  <!-- Hero Spotlight Tinh Gọn (Không Bị Tràn Màn Hình Điện Thoại) -->
   <section class="hero" id="heroBanner">
-    <div class="hero-bg-wrapper">
-      <div class="hero-backdrop" id="heroBackdrop"></div>
-      <div class="hero-gradient-overlay"></div>
-    </div>
+    <div class="hero-bg" id="heroBackdrop"></div>
+    <div class="hero-mask"></div>
     
-    <div class="hero-inner">
-      <div class="hero-meta-pill">
-        <span class="pill-dot"></span>
-        <span class="pill-label" id="heroBadge">TIÊU ĐIỂM</span>
-        <span class="pill-divider">•</span>
-        <span class="pill-quality" id="heroQuality">4K Ultra</span>
+    <div class="hero-content">
+      <div class="hero-pill">
+        <span class="pill-indicator"></span>
+        <span class="pill-tag">PHIM NỔI BẬT</span>
+        <span class="pill-badge" id="heroQuality">4K Ultra</span>
       </div>
 
-      <h1 class="hero-title" id="heroTitle">Tears of Steel (Nước Mắt Thép)</h1>
+      <h1 class="hero-title" id="heroTitle">Tears of Steel</h1>
 
-      <div class="hero-submeta">
-        <span class="meta-tag" id="heroYear">2024</span>
-        <span class="meta-dot">/</span>
-        <span class="meta-tag" id="heroDuration">1h 45m</span>
-        <span class="meta-dot">/</span>
-        <span class="meta-rating" id="heroRating"><i class="fa-solid fa-star"></i> 8.8</span>
-        <span class="meta-dot">/</span>
-        <span class="meta-genres" id="heroGenres">Khoa Học Viễn Tưởng, Hành Động</span>
+      <div class="hero-meta">
+        <span id="heroYear">2024</span>
+        <span class="sep">•</span>
+        <span id="heroDuration">1h 45m</span>
+        <span class="sep">•</span>
+        <span class="rating-badge"><i class="fa-solid fa-star"></i> <span id="heroRating">8.8</span></span>
       </div>
 
-      <p class="hero-overview" id="heroDesc">
-        Trong tương lai không xa, một nhóm nhà khoa học tại Amsterdam tìm cách cứu lấy nhân loại khỏi cuộc xâm lăng của những cỗ máy huỷ diệt bằng công nghệ tua ngược thời gian.
+      <p class="hero-desc" id="heroDesc">
+        Trong tương lai không xa, một nhóm nhà khoa học tại Amsterdam tìm cách cứu lấy nhân loại khỏi cuộc xâm lăng của những cỗ máy khổng lồ.
       </p>
 
-      <div class="hero-actions">
-        <button class="btn btn-primary" id="heroWatchBtn">
-          <span class="btn-icon"><i class="fa-solid fa-play"></i></span>
-          <span class="btn-text">Thưởng Thức Ngay</span>
+      <div class="hero-btns">
+        <button class="btn btn-watch" id="heroWatchBtn">
+          <i class="fa-solid fa-play"></i> Xem Phim
         </button>
-        <button class="btn btn-ghost" id="heroInfoBtn">
-          <span class="btn-icon"><i class="fa-solid fa-info"></i></span>
-          <span class="btn-text">Chi Tiết</span>
+        <button class="btn btn-details" id="heroInfoBtn">
+          <i class="fa-solid fa-circle-info"></i> Chi Tiết
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Content Section -->
-  <main class="main-content" id="movies-section">
-    <!-- Category & Filter Strip -->
-    <div class="filter-strip">
-      <span class="filter-label">Thể loại</span>
-      <div class="filter-pills" id="genreChips">
-        <button class="pill-chip active" data-genre="all">Tất Cả</button>
+  <!-- Khung Nội Dung Chính -->
+  <main class="main-container">
+    
+    <!-- Thanh Tìm Kiếm Đặt Riêng Biệt Chuẩn Di Động -->
+    <div class="search-wrapper">
+      <div class="search-input-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Tìm tên phim, thể loại..." autocomplete="off" />
+        <button id="clearSearch" class="clear-btn" style="display: none;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
     </div>
 
-    <!-- Section Title & Meta -->
-    <div class="content-header">
-      <div class="title-cluster">
-        <h2 class="content-title" id="sectionTitle">Thư Viện Điện Ảnh</h2>
-        <span class="accent-line"></span>
+    <!-- Dải Lọc Thể Loại Cuộn Ngang Mượt Mà -->
+    <div class="filter-scroll-wrapper">
+      <div class="genre-pills" id="genreChips">
+        <button class="chip active" data-genre="all">Tất Cả</button>
       </div>
-      <span class="film-counter" id="movieCount">0 tác phẩm</span>
     </div>
 
-    <!-- Movie Showcase Grid -->
+    <!-- Tiêu Đề Danh Sách Phim -->
+    <div class="catalog-header">
+      <div class="catalog-title-group">
+        <span class="title-bar"></span>
+        <h2 class="catalog-title" id="sectionTitle">Danh Sách Phim</h2>
+      </div>
+      <span class="catalog-count" id="movieCount">0 phim</span>
+    </div>
+
+    <!-- Lưới Phim 2 Cột Chuẩn Màn Hình Điện Thoại -->
     <div class="movie-grid" id="movieGrid"></div>
 
-    <!-- Empty State -->
+    <!-- Trạng Thái Trống -->
     <div class="empty-state" id="emptyState" style="display: none;">
-      <div class="empty-icon-wrap">
-        <i class="fa-regular fa-compass"></i>
-      </div>
-      <h3>Không tìm thấy kết quả</h3>
-      <p>Thử tìm với tên phim khác hoặc chọn lại thể loại</p>
-      <button class="btn btn-primary" id="resetFilterBtn">Làm mới bộ lọc</button>
+      <i class="fa-regular fa-folder-open empty-icon"></i>
+      <h3>Không tìm thấy phim phù hợp</h3>
+      <p>Hãy thử tìm với từ khóa khác hoặc chọn lại thể loại</p>
+      <button class="btn btn-watch" id="resetFilterBtn">Xem tất cả</button>
     </div>
   </main>
 
-  <!-- Video Cinema Modal -->
+  <!-- Video Player Modal Tối Ưu Màn Hình Điện Thoại -->
   <div class="modal" id="videoModal">
-    <div class="modal-scrim" id="modalBackdrop"></div>
-    <div class="modal-container">
-      <button class="modal-exit" id="modalCloseBtn" aria-label="Đóng">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-box">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Đóng">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <!-- 16:9 Screen Wrapper -->
-      <div class="screen-box" id="playerWrapper">
-        <div class="screen-loading">
-          <div class="pulse-loader"></div>
-          <span>Đang kết nối phòng chiếu...</span>
+      <!-- Khung Video 16:9 Khớp 100% Chiều Ngang -->
+      <div class="video-container" id="playerWrapper">
+        <div class="video-loading">
+          <div class="simple-spinner"></div>
+          <span>Đang tải phim...</span>
         </div>
       </div>
 
-      <!-- Server & Quality Source Selector -->
-      <div class="source-selector" id="serverBar">
-        <div class="source-label">
-          <i class="fa-solid fa-bolt-lightning"></i>
-          <span>Nguồn phát:</span>
-        </div>
-        <div class="source-list" id="serverButtons"></div>
+      <!-- Chọn Nguồn Server -->
+      <div class="server-switch-row" id="serverBar">
+        <span class="server-title"><i class="fa-solid fa-bolt"></i> Nguồn:</span>
+        <div class="server-list" id="serverButtons"></div>
       </div>
 
-      <!-- Film Synopsis Details -->
-      <div class="film-details">
-        <div class="details-head">
-          <h2 class="film-name" id="modalMovieTitle">Tên Phim</h2>
-          <div class="film-chips-row">
-            <span class="badge badge-year" id="modalYear">2024</span>
-            <span class="badge badge-runtime" id="modalDuration">1h 45m</span>
-            <span class="badge badge-format" id="modalQuality">4K Ultra</span>
-            <span class="badge badge-score" id="modalRating"><i class="fa-solid fa-star"></i> 8.8</span>
-          </div>
+      <!-- Thông Tin Chi Tiết Phim -->
+      <div class="modal-details">
+        <h2 class="modal-film-title" id="modalMovieTitle">Tên Phim</h2>
+        
+        <div class="modal-film-tags">
+          <span class="tag-item" id="modalYear">2024</span>
+          <span class="tag-item" id="modalDuration">1h 45m</span>
+          <span class="tag-item tag-quality" id="modalQuality">HD</span>
+          <span class="tag-item tag-star"><i class="fa-solid fa-star"></i> <span id="modalRating">8.8</span></span>
         </div>
 
-        <div class="film-tags-wrap" id="modalGenres"></div>
-        <p class="film-plot" id="modalMovieDesc"></p>
+        <div class="genre-tags-list" id="modalGenres"></div>
+        <p class="modal-film-desc" id="modalMovieDesc"></p>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-wrap">
-      <div class="footer-brand">
-        <div class="brand-text">
-          <span class="brand-aura">AURA</span><span class="brand-cinema">CINEMA</span>
-        </div>
-        <p class="footer-tagline">Nghệ thuật điện ảnh tối giản, tối ưu mượt mà trên mọi thiết bị.</p>
+    <div class="footer-content">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-text">AURA<span>CINEMA</span></span>
       </div>
-      <div class="footer-meta">
-        <p>Quản lý bởi <span class="owner-pill">vodat210208-arch</span></p>
-        <span class="tech-stack">GitHub Pages &bull; Đa Nguồn Video &bull; Siêu Tốc Độ</span>
-      </div>
+      <p class="footer-desc">Trang web xem phim tinh gọn, tối ưu mượt mà cho mọi thiết bị.</p>
+      <p class="footer-copy">Quản trị: <strong>vodat210208-arch</strong></p>
     </div>
   </footer>
 
