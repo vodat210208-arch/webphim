@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CinePhim - Xem Phim Trực Tuyến Nhanh & Mượt</title>
+  <meta name="description" content="Trang web xem phim trực tuyến miễn phí chất lượng cao, cập nhật liên tục." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="#" class="logo">
+          <span class="logo-icon"><i class="fa-solid fa-play"></i></span>
+          <span class="logo-text">CINE<span>PHIM</span></span>
+        </a>
+      </div>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="#" class="nav-link active" data-genre="all">Trang Chủ</a>
+        <a href="#movies-section" class="nav-link" data-genre="Hành Động">Hành Động</a>
+        <a href="#movies-section" class="nav-link" data-genre="Khoa Học Viễn Tưởng">Viễn Tưởng</a>
+        <a href="#movies-section" class="nav-link" data-genre="Hoạt Hình">Hoạt Hình</a>
+        <a href="#movies-section" class="nav-link" data-genre="Hài Hước">Hài Hước</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="searchInput" placeholder="Tìm tên phim, thể loại..." autocomplete="off" />
+          <button id="clearSearch" class="clear-btn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Spotlight Banner -->
+  <section class="hero" id="heroBanner">
+    <div class="hero-backdrop" id="heroBackdrop"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badges">
+        <span class="badge badge-hot"><i class="fa-solid fa-fire"></i> Phim Nổi Bật</span>
+        <span class="badge badge-quality" id="heroQuality">HD 1080p</span>
+        <span class="badge badge-rating" id="heroRating"><i class="fa-solid fa-star"></i> 8.8</span>
+      </div>
+      <h1 class="hero-title" id="heroTitle">Tears of Steel (Nước Mắt Thép)</h1>
+      <p class="hero-meta" id="heroMeta">
+        <span id="heroYear">2024</span> • <span id="heroDuration">1h 45m</span> • <span id="heroGenres">Khoa Học Viễn Tưởng, Hành Động</span>
+      </p>
+      <p class="hero-desc" id="heroDesc">
+        Trong tương lai không xa, một nhóm nhà khoa học tại Amsterdam tìm cách cứu lấy nhân loại khỏi cuộc xâm lăng của những cỗ máy huỷ diệt khổng lồ bằng công nghệ tua ngược thời gian.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" id="heroWatchBtn">
+          <i class="fa-solid fa-play"></i> Xem Ngay
+        </button>
+        <button class="btn btn-secondary" id="heroInfoBtn">
+          <i class="fa-solid fa-circle-info"></i> Thông Tin
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-container" id="movies-section">
+    <!-- Genre Filter Tabs -->
+    <div class="genre-bar">
+      <span class="genre-title"><i class="fa-solid fa-filter"></i> Thể loại:</span>
+      <div class="genre-chips" id="genreChips">
+        <button class="chip active" data-genre="all">Tất Cả</button>
+      </div>
+    </div>
+
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-title" id="sectionTitle">
+        <span class="title-indicator"></span> Danh Sách Phim
+      </h2>
+      <span class="movie-count" id="movieCount">0 phim</span>
+    </div>
+
+    <!-- Movie Grid -->
+    <div class="movie-grid" id="movieGrid"></div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <i class="fa-solid fa-film"></i>
+      <h3>Không tìm thấy phim phù hợp</h3>
+      <p>Thử tìm kiếm với từ khoá khác hoặc chọn lại thể loại</p>
+      <button class="btn btn-primary" id="resetFilterBtn">Xem tất cả phim</button>
+    </div>
+  </main>
+
+  <!-- Video Player Modal -->
+  <div class="modal" id="videoModal">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-dialog">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Đóng">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Player Container (16:9) -->
+      <div class="player-wrapper" id="playerWrapper">
+        <div class="player-placeholder">
+          <div class="spinner"></div>
+          <span>Đang tải trình phát...</span>
+        </div>
+      </div>
+
+      <!-- Server Switcher -->
+      <div class="server-bar" id="serverBar">
+        <span class="server-label"><i class="fa-solid fa-server"></i> Chọn nguồn phát:</span>
+        <div class="server-buttons" id="serverButtons"></div>
+      </div>
+
+      <!-- Movie Details in Modal -->
+      <div class="modal-info">
+        <div class="modal-header-row">
+          <div>
+            <h2 class="modal-movie-title" id="modalMovieTitle">Tên Phim</h2>
+            <div class="modal-movie-meta" id="modalMovieMeta">
+              <span class="meta-year" id="modalYear">2024</span>
+              <span class="meta-dot">•</span>
+              <span class="meta-duration" id="modalDuration">1h 45m</span>
+              <span class="meta-dot">•</span>
+              <span class="badge badge-quality" id="modalQuality">HD</span>
+              <span class="badge badge-rating" id="modalRating"><i class="fa-solid fa-star"></i> 8.5</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-genres" id="modalGenres"></div>
+        <p class="modal-movie-desc" id="modalMovieDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-icon"><i class="fa-solid fa-play"></i></span>
+          <span class="logo-text">CINE<span>PHIM</span></span>
+        </div>
+        <p>Nền tảng xem phim trực tuyến cá nhân, triển khai trên GitHub Pages.</p>
+      </div>
+      <div class="footer-links">
+        <p>Quản trị bởi <strong>vodat210208-arch</strong></p>
+        <p class="footer-note">Hỗ trợ đa nguồn video: Google Drive, YouTube, DoodStream, StreamTape, Direct MP4/HLS.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>

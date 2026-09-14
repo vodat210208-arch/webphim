@@ -1,0 +1,95 @@
+[
+  {
+    "id": "tears-of-steel",
+    "title": "Tears of Steel (Nước Mắt Thép)",
+    "originalTitle": "Tears of Steel",
+    "year": 2024,
+    "duration": "1h 45m",
+    "quality": "HD 1080p",
+    "badge": "Vietsub",
+    "genres": ["Khoa Học Viễn Tưởng", "Hành Động"],
+    "rating": "8.8",
+    "poster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80",
+    "description": "Trong tương lai không xa, một nhóm nhà khoa học tại Amsterdam tìm cách cứu lấy nhân loại khỏi cuộc xâm lăng của những cỗ máy huỷ diệt khổng lồ bằng công nghệ tua ngược thời gian.",
+    "featured": true,
+    "servers": [
+      {
+        "name": "Server 1 (Direct Video)",
+        "type": "direct",
+        "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+      },
+      {
+        "name": "Server 2 (YouTube Embed)",
+        "type": "iframe",
+        "url": "https://www.youtube.com/embed/R6MlUcmOul8"
+      }
+    ]
+  },
+  {
+    "id": "sintel",
+    "title": "Sintel: Hành Trình Tìm Rồng",
+    "originalTitle": "Sintel",
+    "year": 2023,
+    "duration": "1h 30m",
+    "quality": "Full HD",
+    "badge": "Thuyết Minh",
+    "genres": ["Hoạt Hình", "Phiêu Lưu"],
+    "rating": "8.5",
+    "poster": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80",
+    "description": "Một cô gái trẻ cô đơn tìm thấy một chú rồng con bị thương và nuôi dưỡng nó. Khi chú rồng bị bắt cóc bởi một con quái vật trưởng thành, cô bắt đầu cuộc hành trình đầy nguy hiểm để tìm lại người bạn thân thiết.",
+    "featured": false,
+    "servers": [
+      {
+        "name": "Server 1 (Direct Video)",
+        "type": "direct",
+        "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+      }
+    ]
+  },
+  {
+    "id": "big-buck-bunny",
+    "title": "Chú Thỏ Khổng Lồ (Big Buck Bunny)",
+    "originalTitle": "Big Buck Bunny",
+    "year": 2023,
+    "duration": "1h 15m",
+    "quality": "4K Ultra",
+    "badge": "Lồng Tiếng",
+    "genres": ["Hoạt Hình", "Hài Hước"],
+    "rating": "8.2",
+    "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1600&q=80",
+    "description": "Một câu chuyện hài hước về một chú thỏ to lớn nhưng hiền lành sống trong rừng. Khi những con sóc tinh nghịch liên tục bắt nạt các sinh vật nhỏ bé, chú thỏ quyết định lên kế hoạch trả đũa đầy ngoạn mục.",
+    "featured": false,
+    "servers": [
+      {
+        "name": "Server 1 (Direct Video)",
+        "type": "direct",
+        "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      }
+    ]
+  },
+  {
+    "id": "elephants-dream",
+    "title": "Giấc Mơ Cơ Khí (Elephants Dream)",
+    "originalTitle": "Elephants Dream",
+    "year": 2022,
+    "duration": "2h 10m",
+    "quality": "HD 1080p",
+    "badge": "Vietsub",
+    "genres": ["Khoa Học Viễn Tưởng", "Tâm Lý"],
+    "rating": "8.0",
+    "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1600&q=80",
+    "description": "Khám phá một thế giới máy móc siêu thực và phức tạp, nơi hai nhân vật Proog và Emo cùng đi qua những mê cung bánh răng để khám phá bản chất thực sự của thực tại.",
+    "featured": false,
+    "servers": [
+      {
+        "name": "Server 1 (Direct Video)",
+        "type": "direct",
+        "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+      }
+    ]
+  }
+]
