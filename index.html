@@ -4,10 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Aura Cinema - Xem Phim Nhanh & Mượt</title>
-  <meta name="description" content="Trang web xem phim giao diện tối giản, tối ưu siêu tốc cho mọi điện thoại, tùy chọn 3 màu chủ đạo." />
+  <meta name="description" content="Trang web xem phim giao diện tối giản, hỗ trợ xem phim bộ theo tập, nhiều server, tối ưu di động." />
   
   <script>
-    // Nhận diện theme ngay từ đầu để tránh chớp giật màn hình
     const savedTheme = localStorage.getItem('aura_theme') || 'blue';
     document.documentElement.setAttribute('data-theme', savedTheme);
   </script>
@@ -39,14 +38,14 @@
         <button class="theme-btn" data-set-theme="pink" title="Màu Hồng Neon" aria-label="Hồng Neon">
           <span class="swatch swatch-pink"></span>
         </button>
-        <button class="theme-btn" data-set-theme="classic" title="Màu Bình Thường (Đỏ Cinema)" aria-label="Bình Thường">
+        <button class="theme-btn" data-set-theme="classic" title="Màu Bình Thường" aria-label="Bình Thường">
           <span class="swatch swatch-classic"></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Spotlight Tinh Gọn (Không Bị Tràn Màn Hình Điện Thoại) -->
+  <!-- Hero Spotlight -->
   <section class="hero" id="heroBanner">
     <div class="hero-bg" id="heroBackdrop"></div>
     <div class="hero-mask"></div>
@@ -61,15 +60,15 @@
       <h1 class="hero-title" id="heroTitle">Tears of Steel</h1>
 
       <div class="hero-meta">
-        <span id="heroYear">2024</span>
+        <span id="heroYear">2026</span>
         <span class="sep">•</span>
-        <span id="heroDuration">1h 45m</span>
+        <span id="heroDuration">9m45s</span>
         <span class="sep">•</span>
         <span class="rating-badge"><i class="fa-solid fa-star"></i> <span id="heroRating">8.8</span></span>
       </div>
 
       <p class="hero-desc" id="heroDesc">
-        Trong tương lai không xa, một nhóm nhà khoa học tại Amsterdam tìm cách cứu lấy nhân loại khỏi cuộc xâm lăng của những cỗ máy khổng lồ.
+        Mô tả phim nổi bật...
       </p>
 
       <div class="hero-btns">
@@ -86,18 +85,18 @@
   <!-- Khung Nội Dung Chính -->
   <main class="main-container">
     
-    <!-- Thanh Tìm Kiếm Đặt Riêng Biệt Chuẩn Di Động -->
+    <!-- Thanh Tìm Kiếm -->
     <div class="search-wrapper">
       <div class="search-input-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="searchInput" placeholder="Tìm tên phim, thể loại..." autocomplete="off" />
+        <input type="text" id="searchInput" placeholder="Tìm tên phim, thể loại, tập..." autocomplete="off" />
         <button id="clearSearch" class="clear-btn" style="display: none;">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
     </div>
 
-    <!-- Dải Lọc Thể Loại Cuộn Ngang Mượt Mà -->
+    <!-- Dải Lọc Thể Loại -->
     <div class="filter-scroll-wrapper">
       <div class="genre-pills" id="genreChips">
         <button class="chip active" data-genre="all">Tất Cả</button>
@@ -113,7 +112,7 @@
       <span class="catalog-count" id="movieCount">0 phim</span>
     </div>
 
-    <!-- Lưới Phim 2 Cột Chuẩn Màn Hình Điện Thoại -->
+    <!-- Lưới Phim 2 Cột -->
     <div class="movie-grid" id="movieGrid"></div>
 
     <!-- Trạng Thái Trống -->
@@ -133,7 +132,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <!-- Khung Video 16:9 Khớp 100% Chiều Ngang -->
+      <!-- Khung Video 16:9 -->
       <div class="video-container" id="playerWrapper">
         <div class="video-loading">
           <div class="simple-spinner"></div>
@@ -141,9 +140,18 @@
         </div>
       </div>
 
-      <!-- Chọn Nguồn Server -->
+      <!-- Danh Sách Chọn Tập Phim (Nếu là phim bộ nhiều tập) -->
+      <div class="episode-selection-box" id="episodesBox" style="display: none;">
+        <div class="episodes-header">
+          <span class="episodes-title"><i class="fa-solid fa-layer-group"></i> Chọn tập phim:</span>
+          <span class="episodes-count" id="episodesCount"></span>
+        </div>
+        <div class="episodes-list" id="episodesList"></div>
+      </div>
+
+      <!-- Chọn Nguồn Server của tập đang xem -->
       <div class="server-switch-row" id="serverBar">
-        <span class="server-title"><i class="fa-solid fa-bolt"></i> Nguồn:</span>
+        <span class="server-title"><i class="fa-solid fa-bolt"></i> Nguồn phát:</span>
         <div class="server-list" id="serverButtons"></div>
       </div>
 
@@ -152,9 +160,9 @@
         <h2 class="modal-film-title" id="modalMovieTitle">Tên Phim</h2>
         
         <div class="modal-film-tags">
-          <span class="tag-item" id="modalYear">2024</span>
-          <span class="tag-item" id="modalDuration">1h 45m</span>
-          <span class="tag-item tag-quality" id="modalQuality">HD</span>
+          <span class="tag-item" id="modalYear">2026</span>
+          <span class="tag-item" id="modalDuration">9m45s</span>
+          <span class="tag-item tag-quality" id="modalQuality">Tập 201</span>
           <span class="tag-item tag-star"><i class="fa-solid fa-star"></i> <span id="modalRating">8.8</span></span>
         </div>
 
@@ -171,7 +179,7 @@
         <span class="brand-dot"></span>
         <span class="brand-text">AURA<span>CINEMA</span></span>
       </div>
-      <p class="footer-desc">Trang web xem phim tinh gọn, tối ưu mượt mà cho mọi thiết bị.</p>
+      <p class="footer-desc">Trang web xem phim tinh gọn, hỗ trợ phim bộ & phim lẻ đa nguồn phát.</p>
       <p class="footer-copy">Quản trị: <strong>vodat210208-arch</strong></p>
     </div>
   </footer>

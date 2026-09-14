@@ -1,8 +1,7 @@
 /* ==========================================================================
-   AURA CINEMA - ULTRA LIGHTWEIGHT & FULLY ALIGNED MOBILE CSS
+   AURA CINEMA - STYLESHEET WITH EPISODE SELECTOR SUPPORT
    ========================================================================== */
 
-/* 1. RESET & VARIABLES */
 :root {
   --bg-main: #0a0c14;
   --bg-card: #121624;
@@ -44,7 +43,6 @@ html[data-theme="classic"] {
   --btn-gradient: linear-gradient(135deg, #e50914, #b81d24);
 }
 
-/* 2. BASE (KHÔNG CÓ BLUR, KHÔNG CÓ FIXED BACKGROUND GÂY LAG) */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -54,7 +52,7 @@ html[data-theme="classic"] {
 
 html, body {
   width: 100%;
-  overflow-x: hidden; /* Chống hoàn toàn lỗi tràn ngang màn hình */
+  overflow-x: hidden;
 }
 
 body {
@@ -66,7 +64,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 3. NAVBAR - CÂN ĐỐI 100%, KHÔNG BỊ LỆCH */
+/* NAVBAR */
 .navbar {
   position: sticky;
   top: 0;
@@ -109,7 +107,7 @@ body {
   margin-left: 2px;
 }
 
-/* THEME PICKER (3 CHẤM MÀU TRÒN ĐỀU ĐẶN) */
+/* THEME PICKER */
 .theme-bar {
   display: flex;
   align-items: center;
@@ -149,7 +147,7 @@ body {
   transform: scale(1.15);
 }
 
-/* 4. HERO BANNER - CO DÃN CHUẨN MỌI MÀN HÌNH */
+/* HERO BANNER */
 .hero {
   position: relative;
   width: 100%;
@@ -254,7 +252,6 @@ body {
   gap: 10px;
 }
 
-/* BUTTONS */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -281,7 +278,7 @@ body {
   border: 1px solid var(--border-color);
 }
 
-/* 5. MAIN CONTAINER & SEARCH */
+/* MAIN CONTAINER & SEARCH */
 .main-container {
   width: 100%;
   max-width: 1200px;
@@ -289,7 +286,6 @@ body {
   padding: 16px 14px 60px;
 }
 
-/* THANH TÌM KIẾM CĂN GIỮA ĐẸP MẮT TRÊN ĐIỆN THOẠI */
 .search-wrapper {
   margin-bottom: 14px;
 }
@@ -335,7 +331,6 @@ body {
   cursor: pointer;
 }
 
-/* CUỘN THỂ LOẠI KHÔNG BỊ TRÀN */
 .filter-scroll-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -372,7 +367,6 @@ body {
   color: var(--accent);
 }
 
-/* CATALOG HEADER */
 .catalog-header {
   display: flex;
   align-items: center;
@@ -404,7 +398,7 @@ body {
   color: var(--text-dim);
 }
 
-/* 6. LƯỚI PHIM 2 CỘT CHUẨN KHÍT TRÊN ĐIỆN THOẠI */
+/* LƯỚI PHIM */
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -412,23 +406,15 @@ body {
 }
 
 @media (min-width: 600px) {
-  .movie-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px 14px;
-  }
+  .movie-grid { grid-template-columns: repeat(3, 1fr); gap: 16px 14px; }
 }
 
 @media (min-width: 900px) {
-  .movie-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px 16px;
-  }
+  .movie-grid { grid-template-columns: repeat(4, 1fr); gap: 20px 16px; }
 }
 
 @media (min-width: 1100px) {
-  .movie-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
+  .movie-grid { grid-template-columns: repeat(5, 1fr); }
 }
 
 .movie-card {
@@ -456,17 +442,19 @@ body {
   display: block;
 }
 
+/* HUY HIỆU TẬP PHIM NỔI BẬT */
 .card-tag-badge {
   position: absolute;
   top: 6px;
   left: 6px;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.8);
   color: var(--accent);
-  font-size: 0.65rem;
-  font-weight: 700;
-  padding: 2px 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
   border-radius: 4px;
   border: 1px solid var(--accent-border);
+  letter-spacing: 0.3px;
 }
 
 .card-score-badge {
@@ -503,7 +491,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* Chỉ bật hover trên máy tính chuột, KHÔNG bật trên màn hình cảm ứng */
 @media (hover: hover) {
   .movie-card:hover {
     border-color: var(--accent);
@@ -527,7 +514,7 @@ body {
   color: var(--text-white);
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Cắt ngắn tên phim không làm vỡ card */
+  text-overflow: ellipsis;
   margin-bottom: 4px;
 }
 
@@ -563,7 +550,7 @@ body {
   margin-bottom: 16px;
 }
 
-/* 7. CINEMA MODAL CHO DI ĐỘNG */
+/* CINEMA MODAL */
 .modal {
   position: fixed;
   inset: 0;
@@ -658,9 +645,78 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* KHU VỰC CHỌN TẬP PHIM XỊN SÒ */
+.episode-selection-box {
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.episodes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.episodes-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.episodes-count {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+}
+
+.episodes-list {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.episodes-list::-webkit-scrollbar {
+  height: 4px;
+}
+.episodes-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 99px;
+}
+
+.ep-btn {
+  background: #1a2034;
+  border: 1px solid var(--border-color);
+  color: var(--text-white);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.ep-btn:hover {
+  border-color: var(--accent);
+}
+
+.ep-btn.active {
+  background: var(--btn-gradient);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 0 10px var(--accent-bg);
+}
+
+/* SERVER SWITCH ROW */
 .server-switch-row {
   padding: 10px 14px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.25);
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
@@ -669,7 +725,7 @@ body {
 }
 
 .server-title {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: var(--accent);
 }
@@ -684,7 +740,7 @@ body {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border-color);
   color: var(--text-gray);
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 99px;
@@ -756,7 +812,7 @@ body {
   line-height: 1.5;
 }
 
-/* 8. FOOTER */
+/* FOOTER */
 .footer {
   border-top: 1px solid var(--border-color);
   background: #080a11;

@@ -1,11 +1,12 @@
 // ==========================================================================
-// AURA CINEMA - LIGHTWEIGHT APP CONTROLLER (HỖ TRỢ ĐA NGUỒN STREAMTAPE, DRIVE, YOUTUBE)
+// AURA CINEMA - CONTROLLER VỚI TÍNH NĂNG CHỌN TẬP PHIM (EPISODE SELECTOR)
 // ==========================================================================
 
 let allMovies = [];
 let currentFilter = 'all';
 let searchQuery = '';
 let currentMovie = null;
+let currentEpisodeIndex = 0;
 let currentServerIndex = 0;
 
 // DOM Elements
@@ -33,6 +34,9 @@ const videoModal = document.getElementById('videoModal');
 const modalBackdrop = document.getElementById('modalBackdrop');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 const playerWrapper = document.getElementById('playerWrapper');
+const episodesBox = document.getElementById('episodesBox');
+const episodesList = document.getElementById('episodesList');
+const episodesCount = document.getElementById('episodesCount');
 const serverButtons = document.getElementById('serverButtons');
 const modalMovieTitle = document.getElementById('modalMovieTitle');
 const modalYear = document.getElementById('modalYear');
@@ -102,11 +106,20 @@ function setupHero(movies) {
   heroDesc.textContent = featured.description;
   heroYear.textContent = featured.year;
   heroDuration.textContent = featured.duration;
-  heroQuality.textContent = featured.quality || '4K Ultra';
+  heroQuality.textContent = getMovieDisplayBadge(featured);
   heroRating.textContent = featured.rating || '8.8';
 
-  heroWatchBtn.onclick = () => openPlayer(featured, 0);
-  heroInfoBtn.onclick = () => openPlayer(featured, 0);
+  heroWatchBtn.onclick = () => openPlayer(featured, 0, 0);
+  heroInfoBtn.onclick = () => openPlayer(featured, 0, 0);
+}
+
+// Lấy huy hiệu hiển thị cho phim (nếu là phim bộ -> hiện tập mới nhất)
+function getMovieDisplayBadge(movie) {
+  if (movie.episodes && movie.episodes.length > 0) {
+    const lastEp = movie.episodes[movie.episodes.length - 1];
+    return lastEp.name || `Tập ${movie.episodes.length}`;
+  }
+  return movie.badge || movie.quality || 'HD';
 }
 
 // Render Genre Filter Chips
@@ -139,7 +152,8 @@ function renderMovies() {
     const matchSearch = !q || 
       movie.title.toLowerCase().includes(q) ||
       (movie.originalTitle && movie.originalTitle.toLowerCase().includes(q)) ||
-      (movie.genres && movie.genres.some(g => g.toLowerCase().includes(q)));
+      (movie.genres && movie.genres.some(g => g.toLowerCase().includes(q))) ||
+      (movie.episodes && movie.episodes.some(e => e.name.toLowerCase().includes(q)));
 
     return matchGenre && matchSearch;
   });
@@ -158,7 +172,7 @@ function renderMovies() {
     <div class="movie-card" data-id="${movie.id}">
       <div class="card-poster-frame">
         <img class="card-poster-img" src="${movie.poster}" alt="${movie.title}" loading="lazy" decoding="async" />
-        <span class="card-tag-badge">${movie.badge || movie.quality || 'HD'}</span>
+        <span class="card-tag-badge">${getMovieDisplayBadge(movie)}</span>
         <span class="card-score-badge"><i class="fa-solid fa-star"></i> ${movie.rating || '8.0'}</span>
         <div class="card-hover-aura">
           <div class="card-play-disc"><i class="fa-solid fa-play"></i></div>
@@ -178,7 +192,7 @@ function renderMovies() {
     card.addEventListener('click', () => {
       const id = card.dataset.id;
       const movie = allMovies.find(m => m.id === id);
-      if (movie) openPlayer(movie, 0);
+      if (movie) openPlayer(movie, 0, 0);
     });
   });
 }
@@ -186,18 +200,12 @@ function renderMovies() {
 // Chuyển đổi thông minh các đường link của các host (Streamtape, Drive, YouTube, Doodstream...)
 function formatVideoUrl(url) {
   if (!url) return '';
-
-  // Streamtape: Đổi /v/ thành /e/ để nhúng được
   if (url.includes('streamtape.com')) {
     return url.replace('/v/', '/e/');
   }
-
-  // Google Drive: Đổi /view thành /preview để nhúng
   if (url.includes('drive.google.com')) {
     return url.replace(/\/view(\?.*)?$/, '/preview');
   }
-
-  // YouTube: Đổi sang /embed/
   if (url.includes('youtube.com/watch?v=')) {
     const id = new URL(url).searchParams.get('v');
     return `https://www.youtube.com/embed/${id}?autoplay=1`;
@@ -206,23 +214,17 @@ function formatVideoUrl(url) {
     const id = url.split('youtu.be/')[1].split('?')[0];
     return `https://www.youtube.com/embed/${id}?autoplay=1`;
   }
-
-  // DoodStream: Đổi /d/ thành /e/
   if (url.match(/dood(stream)?\.(com|to|so|ws|cx|sh)\/d\//i)) {
     return url.replace('/d/', '/e/');
   }
-
-  // Filemoon: Đổi /d/ thành /e/
   if (url.includes('filemoon.') && url.includes('/d/')) {
     return url.replace('/d/', '/e/');
   }
-
   return url;
 }
 
 // Kiểm tra xem link có phải là Iframe host không
 function isIframeMedia(url, type) {
-  // Các host video chia sẻ luôn luôn phải chạy trong iframe
   if (url.match(/(streamtape\.com|drive\.google\.com|youtube\.com|youtu\.be|dood|filemoon|streamwish|mixdrop|ok\.ru|luluvdo)/i)) {
     return true;
   }
@@ -231,15 +233,15 @@ function isIframeMedia(url, type) {
   return !url.match(/\.(mp4|webm|ogg|m4v)(\?.*)?$/i);
 }
 
-// Open Player Modal
-function openPlayer(movie, serverIndex = 0) {
+// Mở Player Modal hỗ trợ cả Phim Bộ lẫn Phim Lẻ
+function openPlayer(movie, epIndex = 0, serverIndex = 0) {
   currentMovie = movie;
+  currentEpisodeIndex = epIndex;
   currentServerIndex = serverIndex;
 
   modalMovieTitle.textContent = movie.title;
   modalYear.textContent = movie.year;
   modalDuration.textContent = movie.duration;
-  modalQuality.textContent = movie.quality || '4K';
   modalRating.textContent = movie.rating || '8.8';
   modalMovieDesc.textContent = movie.description || '';
 
@@ -247,12 +249,59 @@ function openPlayer(movie, serverIndex = 0) {
     <span class="genre-item">${g}</span>
   `).join('');
 
-  const servers = movie.servers && movie.servers.length > 0 ? movie.servers : [
-    { name: 'Nguồn Chính', type: movie.type || 'direct', url: movie.videoUrl }
-  ];
+  // 1. Kiểm tra xem phim có danh sách tập không
+  const hasEpisodes = movie.episodes && movie.episodes.length > 0;
 
+  if (hasEpisodes) {
+    episodesBox.style.display = 'block';
+    episodesCount.textContent = `${movie.episodes.length} tập`;
+
+    // Render các nút tập
+    episodesList.innerHTML = movie.episodes.map((ep, idx) => `
+      <button class="ep-btn ${idx === epIndex ? 'active' : ''}" data-ep="${idx}">
+        ${ep.name || `Tập ${idx + 1}`}
+      </button>
+    `).join('');
+
+    episodesList.querySelectorAll('.ep-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedEp = parseInt(btn.dataset.ep, 10);
+        openPlayer(movie, selectedEp, 0);
+      });
+    });
+
+    // Lấy tập hiện tại
+    const currentEp = movie.episodes[epIndex] || movie.episodes[0];
+    modalQuality.textContent = currentEp.name || 'HD';
+
+    // Lấy servers của tập đó
+    const servers = currentEp.servers && currentEp.servers.length > 0 ? currentEp.servers : [
+      { name: 'Nguồn Chính', type: currentEp.type || 'iframe', url: currentEp.url }
+    ];
+
+    renderServerButtons(servers, serverIndex);
+    loadServerMedia(servers[serverIndex] || servers[0]);
+
+  } else {
+    // Phim lẻ 1 tập duy nhất
+    episodesBox.style.display = 'none';
+    modalQuality.textContent = movie.badge || movie.quality || 'HD';
+
+    const servers = movie.servers && movie.servers.length > 0 ? movie.servers : [
+      { name: 'Nguồn Chính', type: movie.type || 'direct', url: movie.videoUrl }
+    ];
+
+    renderServerButtons(servers, serverIndex);
+    loadServerMedia(servers[serverIndex] || servers[0]);
+  }
+
+  videoModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderServerButtons(servers, activeIdx) {
   serverButtons.innerHTML = servers.map((srv, idx) => `
-    <button class="source-pill-btn ${idx === serverIndex ? 'active' : ''}" data-idx="${idx}">
+    <button class="source-pill-btn ${idx === activeIdx ? 'active' : ''}" data-idx="${idx}">
       ${srv.name || `Server ${idx + 1}`}
     </button>
   `).join('');
@@ -260,15 +309,9 @@ function openPlayer(movie, serverIndex = 0) {
   serverButtons.querySelectorAll('.source-pill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.idx, 10);
-      openPlayer(movie, idx);
+      openPlayer(currentMovie, currentEpisodeIndex, idx);
     });
   });
-
-  const selectedServer = servers[serverIndex] || servers[0];
-  loadServerMedia(selectedServer);
-
-  videoModal.classList.add('open');
-  document.body.style.overflow = 'hidden';
 }
 
 function loadServerMedia(server) {
