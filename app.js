@@ -1,5 +1,5 @@
 // ==========================================================================
-// AURA CINEMA - APP CONTROLLER
+// AURA CINEMA - APP CONTROLLER (VỚI BỘ ĐỔI THEME)
 // ==========================================================================
 
 let allMovies = [];
@@ -48,9 +48,32 @@ const modalMovieDesc = document.getElementById('modalMovieDesc');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
+  setupThemeSwitcher();
   setupEventListeners();
   await loadMovies();
 });
+
+// Theme Switcher Manager
+function setupThemeSwitcher() {
+  const currentTheme = localStorage.getItem('aura_theme') || 'blue';
+  setTheme(currentTheme);
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selected = btn.dataset.setTheme;
+      setTheme(selected);
+    });
+  });
+}
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('aura_theme', theme);
+
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.setTheme === theme);
+  });
+}
 
 // Load movies
 async function loadMovies() {
@@ -65,7 +88,7 @@ async function loadMovies() {
   } catch (error) {
     console.error('Error loading movies:', error);
     movieGrid.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: var(--pink-bright);">
+      <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: var(--theme-primary);">
         <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.2rem; margin-bottom: 14px;"></i>
         <p>Không thể kết nối đến cơ sở dữ liệu phim. Vui lòng thử lại sau.</p>
       </div>

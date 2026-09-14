@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="blue">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cinema - Trải Nghiệm Điện Ảnh Tinh Gọn</title>
-  <meta name="description" content="Trang xem phim trực tuyến với phong cách tối giản, giao diện xanh dương & hồng quyến rũ, tốc độ phát siêu mượt." />
+  <meta name="description" content="Trang xem phim trực tuyến tối giản, hỗ trợ đổi 3 chủ đề màu sắc: Xanh dương, Hồng neon và Bình thường." />
   
+  <script>
+    // Khởi tạo theme tức thì từ LocalStorage để tránh giật giao diện
+    const currentTheme = localStorage.getItem('aura_theme') || 'blue';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  </script>
+
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,8 +23,8 @@
 </head>
 <body>
   <!-- Ambient Atmospheric Glows -->
-  <div class="ambient-glow glow-cyan"></div>
-  <div class="ambient-glow glow-pink"></div>
+  <div class="ambient-glow glow-primary"></div>
+  <div class="ambient-glow glow-secondary"></div>
 
   <!-- Minimalist Navigation Bar -->
   <header class="navbar" id="navbar">
@@ -41,9 +47,26 @@
       </nav>
 
       <div class="nav-right">
+        <!-- Theme Selector -->
+        <div class="theme-selector" id="themePicker">
+          <button class="theme-btn active" data-set-theme="blue" title="Chủ đề Xanh Dương">
+            <span class="theme-swatch swatch-blue"></span>
+            <span class="theme-title">Xanh</span>
+          </button>
+          <button class="theme-btn" data-set-theme="pink" title="Chủ đề Hồng Neon">
+            <span class="theme-swatch swatch-pink"></span>
+            <span class="theme-title">Hồng</span>
+          </button>
+          <button class="theme-btn" data-set-theme="classic" title="Chủ đề Bình Thường (Đỏ Cinema)">
+            <span class="theme-swatch swatch-classic"></span>
+            <span class="theme-title">Bình Thường</span>
+          </button>
+        </div>
+
+        <!-- Search Bar -->
         <div class="search-bar">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" id="searchInput" placeholder="Tìm kiếm phim, thể loại..." autocomplete="off" />
+          <input type="text" id="searchInput" placeholder="Tìm phim..." autocomplete="off" />
           <button id="clearSearch" class="clear-search-btn" style="display: none;">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -101,7 +124,7 @@
     <!-- Category & Filter Strip -->
     <div class="filter-strip">
       <div class="filter-header">
-        <span class="filter-label">Bộ Lọc Thể Loại</span>
+        <span class="filter-label">Thể loại</span>
       </div>
       <div class="filter-pills" id="genreChips">
         <button class="pill-chip active" data-genre="all">Tất Cả</button>
@@ -126,7 +149,7 @@
         <i class="fa-regular fa-compass"></i>
       </div>
       <h3>Không tìm thấy kết quả</h3>
-      <p>Thử tìm với tên phim, diễn viên hoặc đổi bộ lọc thể loại khác</p>
+      <p>Thử tìm với tên phim khác hoặc đổi bộ lọc thể loại</p>
       <button class="btn btn-primary" id="resetFilterBtn">Làm mới bộ lọc</button>
     </div>
   </main>
@@ -185,7 +208,7 @@
       </div>
       <div class="footer-meta">
         <p>Quản lý bởi <span class="owner-pill">vodat210208-arch</span></p>
-        <span class="tech-stack">GitHub Pages &bull; Cloud Streaming &bull; Dual-Tone Theme</span>
+        <span class="tech-stack">GitHub Pages &bull; Đa Nguồn Video &bull; 3 Giao Diện Màu Sắc</span>
       </div>
     </div>
   </footer>
